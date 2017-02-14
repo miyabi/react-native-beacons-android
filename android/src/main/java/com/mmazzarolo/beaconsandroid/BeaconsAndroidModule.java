@@ -186,7 +186,20 @@ public class BeaconsAndroidModule extends ReactContextBaseJavaModule implements 
 
         @Override
         public void didDetermineStateForRegion(int i, Region region) {
-
+            String state = "unknown";
+            switch (i) {
+                case MonitorNotifier.INSIDE:
+                    state = "inside";
+                    break;
+                case MonitorNotifier.OUTSIDE:
+                    state = "outside";
+                    break;
+                default:
+                    break;
+            }
+            WritableMap map = createMonitoringResponse(region);
+            map.putString("state", state);
+            sendEvent(mReactContext, "didDetermineStateForRegion", map);
         }
     };
 
